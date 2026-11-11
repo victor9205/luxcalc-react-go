@@ -1,5 +1,7 @@
 # Actual AI-assisted workflow
 
+This is the record of the initial local implementation phase, before publication. Its no-push statements describe that phase; current publication and hosted CI evidence are recorded in [VERIFICATION.md](VERIFICATION.md).
+
 The full user master prompt is preserved verbatim in [AI_PROMPTS.md](../AI_PROMPTS.md). No earlier project or prompt history was supplied. The following records actual agent invocations and exact excerpts of their task messages, rather than an invented conversation.
 
 | Agent | Explicit requested model / effort | Responsibility |
