@@ -1,5 +1,7 @@
 # LuxCalc Full-Stack Implementation Plan
 
+Historical scope: this executed plan covers the initial local foundation, before Git publication and hosted CI. Its no-commit/no-push constraints describe that request. See [verification evidence](VERIFICATION.md) for the later published state and hosted results.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Deliver a polished, accessible React calculator backed by a verified standard-library Go JSON API in the opened workspace.

@@ -1,8 +1,26 @@
 # Verification evidence
 
-This is the initial implementation-delivery record, captured before Git history organization. Its pre-commit repository notes describe that delivery snapshot. For the subsequently established branching policy and current history, see [GIT_WORKFLOW.md](GIT_WORKFLOW.md) and the actual Git graph.
+This document preserves the initial local implementation report and records later hosted verification separately. Its pre-commit repository notes describe the original delivery snapshot. For branching policy and the actual published history, see [GIT_WORKFLOW.md](GIT_WORKFLOW.md) and the Git graph.
 
-Local execution date: 2026-11-11. Evidence is collected in the opened `C:\Projetos\luxcalc-react-go` workspace. Hosted GitHub Actions has not been run; the workflow is prepared for publication.
+## Hosted publication verification
+
+The repository is public at [victor9205/luxcalc-react-go](https://github.com/victor9205/luxcalc-react-go). On 2026-11-11, GitHub's API confirmed the latest existing `main` workflow run at the start of the documentation refresh:
+
+| Evidence | Verified value |
+| --- | --- |
+| Workflow | [Quality checks, `.github/workflows/ci.yml`](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml) |
+| Run | [43002167130, attempt 1](https://github.com/victor9205/luxcalc-react-go/actions/runs/43002167130) |
+| Branch / event | `main` / `push` |
+| Commit | [`86c77ff758558b2f2515c0400cd391da8826719b`](https://github.com/victor9205/luxcalc-react-go/commit/86c77ff758558b2f2515c0400cd391da8826719b) |
+| Run / job | `completed` / `success`; job `verify` completed successfully |
+| Hosted checks | Dependency restoration, `npm run verify`, Chromium installation and `npm run test:e2e` passed |
+| Counts and coverage | Logs confirm 50 frontend tests, 7 browser tests; frontend statements 98.42%, Go domain 100%, HTTP 96.4%, overall Go 75.6% |
+
+This is a pinned successful hosted baseline on Ubuntu/Chromium. Later pushes have their own runs; the [workflow page](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml) and README badge expose current status. A success recorded for this SHA must not be assumed for a newer SHA. Hosted execution supplements the historical local evidence below.
+
+## Initial local implementation report
+
+Local execution date: 2026-11-11, in the opened `C:\Projetos\luxcalc-react-go` workspace. At this initial handoff, GitHub Actions had not yet run and publication was still pending; the later hosted result is recorded above.
 
 ## Toolchain and specifications
 
@@ -57,6 +75,6 @@ One independent read-only Sol high-effort review found no Critical issue, one Im
 
 Review decisions: duplicate/case-insensitive JSON keys retain Go decoder behavior; underflow and signed-zero display retain IEEE 754/JavaScript string behavior; clicking a selected operation invalidates the result as a deliberate edit action. These are documented scope/numeric choices, with no unresolved Critical/Important finding. No minor finding was deferred. The reviewer also probed a separately started live backend and stopped it afterward. There was no second review loop.
 
-## Repository
+## Repository at the initial handoff
 
 Git was initialized directly in the previously empty opened root, on `feat/luxcalc-foundation`. No existing history was reset. Source, lockfiles, specifications, documentation, curated screenshots and CI are new uncommitted files. Generated output, local tools and transient evidence are ignored. No commit, remote, push or publication was created by this task.

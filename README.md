@@ -2,7 +2,11 @@
 
 **Modern Calculation. Thoughtful Engineering.**
 
+[![Quality checks on main](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml)
+
 LuxCalc is a focused full-stack calculator and open-source engineering portfolio project, inspired by an earlier Delphi application built with OOP, MVC and SOLID. It pairs a responsive React workspace with an independently tested Go calculation API.
+
+The source is public at [victor9205/luxcalc-react-go](https://github.com/victor9205/luxcalc-react-go).
 
 ![LuxCalc desktop workspace showing a calculation returned by the Go API](docs/images/luxcalc-desktop.png)
 
@@ -96,9 +100,9 @@ npm run test:coverage
 npm run build
 ```
 
-Browser tests default to installed Chrome. To use Playwright Chromium, run `npx playwright install chromium` and set `PLAYWRIGHT_CHANNEL=chromium`. CI uses Chromium. [Actual results and coverage](docs/VERIFICATION.md) distinguish local evidence from checks that have not run in hosted CI.
+Browser tests default to installed Chrome. To use Playwright Chromium, run `npx playwright install chromium` and set `PLAYWRIGHT_CHANNEL=chromium`. GitHub Actions uses Chromium on Ubuntu. [Verification evidence](docs/VERIFICATION.md) distinguishes the initial local report from later hosted checks.
 
-Latest local evidence: **50 frontend tests and 7 browser tests passed**. Frontend statement coverage is **98.42%**. Go coverage is **100%** for the domain, **96.4%** for HTTP, and **75.6%** overall including the server bootstrap (0% unit coverage). Formatting, vet, lint, type checking, OpenSpec validation and production build passed. Browser checks cover 1440px desktop and 320px mobile layouts, keyboard operation, real responses/errors, network failure and request cancellation. These are local results, not a claim that hosted CI ran.
+The initial local checks passed **50 frontend tests and 7 browser tests**, with **98.42% frontend statement coverage**, **100% Go domain coverage**, **96.4% HTTP coverage**, and **75.6% Go coverage overall** including the server bootstrap (0% unit coverage). The [successful hosted baseline run](https://github.com/victor9205/luxcalc-react-go/actions/runs/43002167130) independently confirmed the same test counts and coverage on commit `86c77ff`, including formatting, vet, lint, type checking, OpenSpec validation, production build and real browser integration. The badge shows the current `main` workflow status; the linked run is a fixed, verified historical result, not a claim about a later commit.
 
 ## Specifications and AI-assisted development
 
@@ -112,4 +116,4 @@ The API uses IEEE 754 `float64`; decimal values such as `0.1 + 0.2` can expose b
 
 Future improvements could add exact decimal arithmetic as an explicit separate mode, broader operations and persistent history. Authentication, databases, Docker and unnecessary infrastructure are outside this small portfolio project's scope.
 
-MIT licensed; see [LICENSE](LICENSE). The repository is prepared locally; publication requires a separate user action.
+MIT licensed; see [LICENSE](LICENSE).
