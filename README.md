@@ -2,15 +2,26 @@
 
 **Modern Calculation. Thoughtful Engineering.**
 
-[![Quality checks on main](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml)
+LuxCalc pairs a responsive React + TypeScript workspace with an independently tested Go calculation API. This open-source portfolio project evolves an earlier Delphi calculator built with OOP, MVC and SOLID.
 
-LuxCalc is a focused full-stack calculator and open-source engineering portfolio project, inspired by an earlier Delphi application built with OOP, MVC and SOLID. It pairs a responsive React workspace with an independently tested Go calculation API.
+[![Quality checks on main](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml)
 
 The source is public at [victor9205/luxcalc-react-go](https://github.com/victor9205/luxcalc-react-go).
 
-![LuxCalc desktop workspace showing a calculation returned by the Go API](docs/images/luxcalc-desktop.png)
+| Desktop · 1440 px | Mobile · 320 px |
+| --- | --- |
+| [![Two-panel LuxCalc desktop workspace displaying the Go API result of 120 divided by 4](docs/images/luxcalc-desktop.png)](docs/images/luxcalc-desktop.png) | [![Single-column LuxCalc mobile workspace displaying the full result of 0.1 plus 0.2](docs/images/luxcalc-mobile.png)](docs/images/luxcalc-mobile.png) |
 
-[View the 320px mobile layout](docs/images/luxcalc-mobile.png).
+Both layouts show real API-backed calculations. Select either image for the full-size capture.
+
+## UX & Accessibility
+
+- **Responsive workspace:** two desktop panels become one column at 320 px; long and scientific results stay inside the result panel.
+- **Keyboard and announcements:** Tab navigation, Enter submission, visible focus, explicit input labels, selected-operation states and announced validation/loading/results/errors.
+- **Reliable async interactions:** loading feedback and duplicate-submit protection; editing or clearing cancels pending work and removes stale results. API/network errors and a ten-second timeout provide a correction or retry path.
+- **Reduced motion:** nonessential animation and transitions respect the user's motion preference.
+
+Evidence: [seven browser scenarios](tests/e2e/calculator.spec.mjs), [async interaction tests](frontend/src/App.races.test.tsx) and the [current UX check](docs/VERIFICATION.md#post-publication-ux-check).
 
 ## Run locally
 
@@ -30,12 +41,9 @@ npm run dev:frontend
 
 Open **http://localhost:5173**. The Go API listens on `127.0.0.1:8080`. Vite proxies `/api` to it, so development needs no permissive CORS policy. Set `ADDR` to change the backend address; change the Vite proxy target too if you change the port. For production, build the frontend and configure an HTTPS reverse proxy to serve `frontend/dist` and route `/api` to Go; the Vite development server is not a production server.
 
-## Features and architecture
+## Architecture
 
-- Addition, subtraction, multiplication and division through the real Go API.
-- Operand validation, actionable errors, loading feedback, duplicate submission protection and cancellation of obsolete requests.
-- Keyboard submission, accessible labels and status announcements, visible focus and reduced-motion support.
-- Responsive workspace for desktop and narrow mobile screens.
+The Go API supports addition, subtraction, multiplication and division. React manages input and presentation; the service supplies every calculation result.
 
 ```text
 React UI → typed fetch client → /api/calculate
