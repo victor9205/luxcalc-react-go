@@ -1,6 +1,6 @@
 # Verification evidence
 
-This document preserves the initial local implementation report and records later hosted verification separately. Its pre-commit repository notes describe the original delivery snapshot. For branching policy and the actual published history, see [GIT_WORKFLOW.md](GIT_WORKFLOW.md) and the Git graph.
+This document preserves the initial local implementation report and records later publication and UX verification separately. Its pre-commit repository notes describe the original delivery snapshot. For branching policy and the actual published history, see [GIT_WORKFLOW.md](GIT_WORKFLOW.md) and the Git graph.
 
 ## Hosted publication verification
 
@@ -17,6 +17,16 @@ The repository is public at [victor9205/luxcalc-react-go](https://github.com/vic
 | Counts and coverage | Logs confirm 50 frontend tests, 7 browser tests; frontend statements 98.42%, Go domain 100%, HTTP 96.4%, overall Go 75.6% |
 
 This is a pinned successful hosted baseline on Ubuntu/Chromium. Later pushes have their own runs; the [workflow page](https://github.com/victor9205/luxcalc-react-go/actions/workflows/ci.yml) and README badge expose current status. A success recorded for this SHA must not be assumed for a newer SHA. Hosted execution supplements the historical local evidence below.
+
+## Post-publication UX check
+
+On 2026-11-11, the existing `npm run test:e2e` suite passed **7/7** against the unchanged application after the history-documentation merge `d18eec7`. This check used Chrome **157.0.8103.51** on Windows and the real local Go/Vite services, including the `/api` proxy. The [browser scenarios](../tests/e2e/calculator.spec.mjs) cover desktop keyboard calculation, backend division errors and retry, mobile precision/overflow, network failure, pending-request duplicate/cancellation behavior, HTTP contracts and Tab/Enter navigation with visible focus. The mobile scenario also asserts the reduced-motion transition duration.
+
+The existing [desktop](images/luxcalc-desktop.png) and [mobile](images/luxcalc-mobile.png) screenshots were opened and compared with fresh captures. The desktop composition and API result still match the current rendering; the mobile capture is byte-identical. Both remain accurate, so the curated assets were retained. Viewports were 1440×1000 and 320×740; full-page screenshots include content below those viewport heights.
+
+The [component tests](../frontend/src/App.test.tsx), [race/recovery tests](../frontend/src/App.races.test.tsx), and labeled inputs/live result region in the implementation support the README's validation, status, timeout and stale-result claims. Automated semantics/focus checks and visual inspection are evidence of these implemented features, not a WCAG certification or a manual screen-reader/device audit.
+
+Repository metadata had no homepage, GitHub Pages was disabled, and the public deployments endpoint returned an empty list. No verified full-stack demo URL was discovered through those sources; no deployment or hosting configuration was created.
 
 ## Initial local implementation report
 
