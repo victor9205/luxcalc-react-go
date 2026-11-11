@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+coverage.out
+*.tsbuildinfo
+playwright-report/
+test-results/
+*.exe
+*.test
+.tools/
+.artifacts/
+.superpowers/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
