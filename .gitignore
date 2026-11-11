@@ -2,6 +2,7 @@ node_modules/
 dist/
 coverage/
 coverage.out
+/backend/coverage
 *.tsbuildinfo
 playwright-report/
 test-results/

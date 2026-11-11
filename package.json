@@ -1,0 +1,22 @@
+{
+  "name": "luxcalc-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "spec:validate": "openspec validate luxcalc-fullstack-foundation --strict",
+    "verify:frontend": "npm --prefix frontend run lint && npm --prefix frontend run typecheck && npm --prefix frontend run test:coverage && npm --prefix frontend run build",
+    "dev:backend": "node scripts/backend.mjs run ./cmd/server",
+    "dev:frontend": "npm --prefix frontend run dev --",
+    "verify": "node scripts/verify.mjs",
+    "test:e2e": "playwright test",
+    "format": "prettier --write frontend/src frontend/*.json frontend/*.ts frontend/*.js frontend/index.html scripts tests playwright.config.mjs package.json"
+  },
+  "devDependencies": {
+    "@fission-ai/openspec": "1.17.0",
+    "@playwright/test": "1.65.0",
+    "prettier": "3.9.10"
+  },
+  "engines": {
+    "node": ">=22.22.3"
+  }
+}
