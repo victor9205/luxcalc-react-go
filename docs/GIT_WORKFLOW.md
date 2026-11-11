@@ -19,12 +19,13 @@ Use Conventional Commits: `<type>(<scope>): <imperative description>`. Examples:
 
 ## Complete and merge a branch
 
-1. Inspect status and preserve unrelated changes. Create a focused branch from validated `main`.
-2. Stage explicit paths or reviewed hunks. Inspect the staged diff and check for secrets, generated output and unintended files.
-3. Commit using the existing Git author/committer identity and normal timestamps. Never amend/rebase existing commits to manufacture a timeline.
-4. Run applicable checks and inspect the branch diff against `main`. Stop on failures or ambiguous conflicts.
-5. Merge locally using `git merge --no-ff <branch>` and an accurate merge message. Confirm success and recheck status.
-6. After the final merge, run the complete checks and retain working branches until verification is complete. Remove a branch later only after confirming it is merged and no longer needed.
+1. Inspect status and preserve unrelated work. Verify `origin`, run `git fetch origin`, and inspect `main` versus `origin/main`. Fast-forward with `git merge --ff-only origin/main` if needed; stop on divergence or unsafe local changes.
+2. Create a focused branch from the latest validated `main` and implement only that change. For each of these post-publication improvements, create exactly one focused Conventional Commit.
+3. Review the actual diff and run applicable checks. Documentation-only changes require `git diff --check`, link/path checks and evidence consistency; application changes require the relevant backend/frontend/browser checks.
+4. Stage explicit paths or reviewed hunks, inspect the staged diff, and check for secrets, generated output and unintended files. Commit using the configured identity and current timestamps.
+5. Switch to `main` and merge locally with `git merge --no-ff <branch>`. The merge is a separate commit with two parents; do not squash the implementation commit. Confirm the merged tree and recheck status.
+6. When that task explicitly authorizes publication, push the verified `main` with `git push origin main`. Confirm the remote SHA and the implementation commit's ancestry. Inspect the Actions run for that exact pushed SHA; a previous successful run does not prove the new commit passed.
+7. Start the next branch from the synchronized `main`. After the final merge, run the complete local checks below. Retain branch tips until verification is complete; remove a branch later only when it is merged and no longer needed.
 
 Full-project gates, from the repository root:
 
@@ -39,19 +40,28 @@ For a backend-only stage, use `node scripts/backend.mjs fmt ./...`, `node script
 
 ## Protect main and existing work
 
-Never force-push, use `reset --hard`, discard untracked files, or rewrite existing/published history. Do not change author identities or timestamps. Avoid direct feature commits on `main` after the initial baseline. When a remote is explicitly authorized, configure hosted branch protection to require pull requests/review and the `verify` CI job; disallow force-pushes and branch deletion. No hosted protection has been configured locally, and no remote push is automatic.
+Never force-push, use `reset --hard`, discard untracked files, or rewrite existing/published history. Do not amend old commits, rebase/cherry-pick completed features to reconstruct their development, or change author identities/timestamps. Avoid direct feature commits on `main`. Respect existing branch protection and stop if it blocks a push; changing repository settings requires separate authorization. Review requirements, required `verify` checks and disabled force-pushes are recommended protection practices, not a claim that this document configured or inspected those settings. Committing or merging does not imply permission to push.
 
 Track source, lockfiles, specs, workflow definitions and documentation assets. Curated screenshots in `docs/images/` are documentation referenced by the README; transient screenshots, test output, local tools, dependency folders, build output, caches and secrets remain ignored.
 
-## Initial retrospective organization
+## Historical record and published baseline
 
-The application already existed as untracked files. There were no commits, tracked files, `main` branch or remote; `HEAD` named the unborn `feat/luxcalc-foundation` branch. This organization records current logical units, not historical development dates:
+The application was completed before its Git history was organized. The initial local preparation grouped already-existing code, tests and documentation retrospectively. Its logical stages must not be presented as a record of when the features were originally designed or implemented.
 
-1. A real initial baseline on `main`: ignore rules, line-ending/editor policy and license. Only configuration checks apply; application checks are deferred.
-2. `feature/go-calculation-api`: complete Go domain, HTTP/server, backend tests and portable-Go runner. Backend checks apply; frontend/integration gates are deferred until their files are tracked.
-3. `feature/react-calculator-ux`: complete frontend, locked dependencies and frontend tests. Frontend checks apply; the committed browser harness arrives in the next unit.
-4. `chore/project-quality-and-documentation`: root tooling/lockfile, complete quality/browser/CI gates, OpenSpec integration, documentation and this workflow. These files stay together because the verification entry point requires the specs and the docs describe the final integrated project. Full regression and browser gates apply.
+At the start of the post-publication improvements, published `origin/main` had this **linear** ancestry:
 
-Each focused branch is merged locally with `--no-ff` after its checks pass. Branch tips remain available for inspection. Git's actual graph is the authoritative list of commits and current timestamps. Earlier implementation reports preserve their original pre-commit delivery context.
+| Commit | Actual contents / role |
+| --- | --- |
+| `3871957` | Repository's initial commit |
+| `66ff749` | Existing repository baseline policy |
+| `ab1c420` | Existing Go domain, API, server and tests |
+| `31878af` | Existing React interface, locked toolchain and tests |
+| `86c77ff` | Existing quality gates, OpenSpec and engineering documentation |
 
-The baseline's ignore/attribute checks passed. The API unit passed formatting, vet, uncached Go tests and build. The UI unit passed lint, type checking, all 50 frontend tests with coverage and its production build. Complete root/browser gates are run on the quality unit before its merge and again on the final `main`; final outcomes are recorded in the merge message and delivery report. Application source is preserved rather than reformatted solely for this history operation.
+The retained `feature/go-calculation-api`, `feature/react-calculator-ux` and `chore/project-quality-and-documentation` branches point to a **separate earlier local lineage**. That lineage includes merge commits `989dcc9` and `753af67`, and ends at `74db39d`. Those merges are not ancestors of published baseline `86c77ff`. The two tips `74db39d` and `86c77ff` have identical file trees, but their commit ancestry differs. Both lineages, branch tips, authors, dates and contents are preserved; this documentation correction neither moves them nor manufactures historical merges.
+
+## Genuine post-publication merges
+
+The process above applies to new focused work. The publication/CI documentation improvement demonstrates the actual workflow: branch `docs/refresh-publication-ci-status` contains implementation commit `89ec0ac`; merge `57915c9` has parents `86c77ff` and `89ec0ac`, was pushed to `origin/main`, and passed [hosted run 43112301777](https://github.com/victor9205/luxcalc-react-go/actions/runs/43112301777). The subsequent history and UX documentation branches follow the same one-commit plus separate `--no-ff` merge contract.
+
+Inspect reality with `git log --graph --oneline --decorate --all -20`, `git show --no-patch --format="%H %P" <merge-sha>` and `git merge-base --is-ancestor <branch> main`. A merge should have two parents and a real focused change relative to its first parent. Earlier implementation reports retain their original local-handoff context; [verification evidence](VERIFICATION.md) records publication and hosted CI separately.
